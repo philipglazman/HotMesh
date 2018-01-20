@@ -10,8 +10,7 @@ Constructor
 /**/
 Wallet::Wallet()
 {
-    std::string passphrase = "test";
-    createMnemonicCodeWords(passphrase);
+    createMnemonicCodeWords();
 }
 
 /**/
@@ -24,7 +23,7 @@ Wallet::Wallet(const bc::wallet::word_list a_mnemonicSeed)
 {
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(a_mnemonicSeed));
     m_mnemonic = a_mnemonicSeed;
-    m_privateKey = bc::wallet::hd_private(m_seed);
+    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
     m_publicKey = m_privateKey.to_public();
 }
 
@@ -35,7 +34,7 @@ Creates Mnemonic Code Words following BIP-39 Standard
 */
 /**/
 void
-Wallet::createMnemonicCodeWords(const std::string& a_passphrase)
+Wallet::createMnemonicCodeWords()
 {
     // Create vector<uint8_t> to store 128 bits.
     std::vector<std::uint8_t> m_entropy(16); 
@@ -51,7 +50,7 @@ Wallet::createMnemonicCodeWords(const std::string& a_passphrase)
     m_seed = bc::to_chunk(bc::wallet::decode_mnemonic(m_mnemonic));
 
     // Create master 256-bit Private Key.
-    m_privateKey = bc::wallet::hd_private(m_seed);
+    m_privateKey = bc::wallet::hd_private(m_seed,bc::wallet::hd_private::testnet);
 
     // Create master 264-bit Public Key.
     m_publicKey = m_privateKey.to_public(); 
@@ -70,35 +69,42 @@ bc::wallet::hd_public Wallet::childPublicKey(int index)
 
 bc::wallet::payment_address Wallet::childAddress(int index)
 {
-    return bc::wallet::ec_public(childPublicKey(index).point()).to_payment_address();
+    return bc::wallet::payment_address(bc::wallet::ec_public(childPublicKey(index).point()), 0x6f);
+    //return bc::wallet::ec_public(childPublicKey(index).point(),0x6f);//.to_payment_address();
 }
 
+// Reveal BIP32 Root Key.
 void Wallet::showPrivateKey()
 {
-    std::cout << "priv key " << m_privateKey.encoded() << std::endl;
+    std::cout << "BIP 32 Root Key: " << m_privateKey.encoded() << std::endl;
 }
 
+// Reveal child private key at index n.
 void Wallet::showChildPrivateKey(int index)
 {
-    std::cout << "child priv key " << childPrivateKey(index).encoded() << std::endl;
+    std::cout << "Child Private Key: " << childPrivateKey(index).encoded() << std::endl;
 }
 
+// Show address n.
 void Wallet::showAddress(int index)
 {
-    std::cout << "first address " << childAddress(index).encoded() << std::endl;
+    std::cout << "Address: " << childAddress(index).encoded() << std::endl;
 }
 
-// void showNextAddress()
-// {
-//     std::cout << "Next available address " << childAddress(1).encoded() << std::endl;
-// }
+void Wallet::showNextAddress()
+{
+    std::cout << "Next Address: " << childAddress(m_index).encoded() << std::endl;
+    m_index++;
+}
 
+// Show all addresses.
 void Wallet::showAllAddresses()
 {
     //TODO cycle thru all addresses
     std::cout << "to do" << std::endl;
 }
 
+// Reveal mnemonic codes.
 void Wallet::showMnemonicCodes()
 {
     if(bc::wallet::validate_mnemonic(m_mnemonic))
@@ -115,6 +121,9 @@ void Wallet::showKeys()
 {
     showMnemonicCodes();
     showPrivateKey();
-    showChildPrivateKey(1);
+    //showChildPrivateKey(1);
     showAddress(1);
+    showNextAddress();
+    showAddress(2);
+    showNextAddress();
 }

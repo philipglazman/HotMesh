@@ -18,7 +18,7 @@ public:
 
     ~Wallet() {}
 
-    void createMnemonicCodeWords(const std::string& a_passphrase);
+    void createMnemonicCodeWords();
 
     bc::wallet::hd_private childPrivateKey(int index);
 
@@ -33,7 +33,7 @@ public:
     // Show bitcoin address at index.
     void showAddress(int index);
 
-    //void showNextAddress();
+    void showNextAddress();
 
     // Show all addresses.
     void showAllAddresses();
@@ -43,6 +43,12 @@ public:
 
     // Debug function to get all keys.
     void showKeys();
+
+    // Show total utxo.
+    void showTotalBalance();
+
+    // Send transaction.
+    void sendTx();
     
 private:
     bc::data_chunk m_entropy;
