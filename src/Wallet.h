@@ -26,17 +26,17 @@ public:
 
     bc::wallet::payment_address childAddress(int index);
 
-    void showPrivateKey();
+    bc::wallet::hd_private showPrivateKey();
 
-    void showChildPrivateKey(int index);
+    bc::wallet::hd_private showChildPrivateKey(int index);
 
     // Show bitcoin address at index.
-    void showAddress(int index);
+    bc::wallet::payment_address showAddress(int index);
 
-    void showNextAddress();
+    bc::wallet::payment_address showNextAddress();
 
     // Show all addresses.
-    void showAllAddresses();
+    bc::wallet::payment_address showAllAddresses();
 
     // Show mnemonic codes.
     void showMnemonicCodes();
@@ -44,11 +44,8 @@ public:
     // Debug function to get all keys.
     void showKeys();
 
-    // Show total utxo.
-    void showTotalBalance();
-
-    // Send transaction.
-    void sendTx();
+    // TODO: Send transaction.
+    //void sendTx();
     
 private:
     bc::data_chunk m_entropy;
@@ -59,7 +56,7 @@ private:
 
     // Cursor to latest index.
     // TODO replace index with m_index.
-    int m_index = 1;
+    int m_index = 0;
 };
 
 #endif

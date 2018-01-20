@@ -74,31 +74,31 @@ bc::wallet::payment_address Wallet::childAddress(int index)
 }
 
 // Reveal BIP32 Root Key.
-void Wallet::showPrivateKey()
+bc::wallet::hd_private Wallet::showPrivateKey()
 {
-    std::cout << "BIP 32 Root Key: " << m_privateKey.encoded() << std::endl;
+    return m_privateKey.encoded();
 }
 
 // Reveal child private key at index n.
-void Wallet::showChildPrivateKey(int index)
+bc::wallet::hd_private Wallet::showChildPrivateKey(int index)
 {
-    std::cout << "Child Private Key: " << childPrivateKey(index).encoded() << std::endl;
+    return childPrivateKey(index).encoded();
 }
 
 // Show address n.
-void Wallet::showAddress(int index)
+bc::wallet::payment_address Wallet::showAddress(int index)
 {
-    std::cout << "Address: " << childAddress(index).encoded() << std::endl;
+    return childAddress(index).encoded();
 }
 
-void Wallet::showNextAddress()
+bc::wallet::payment_address Wallet::showNextAddress()
 {
-    std::cout << "Next Address: " << childAddress(m_index).encoded() << std::endl;
     m_index++;
+    return childAddress(m_index).encoded();
 }
 
 // Show all addresses.
-void Wallet::showAllAddresses()
+bc::wallet::payment_address Wallet::showAllAddresses()
 {
     //TODO cycle thru all addresses
     std::cout << "to do" << std::endl;
@@ -120,10 +120,9 @@ void Wallet::showMnemonicCodes()
 void Wallet::showKeys()
 {
     showMnemonicCodes();
-    showPrivateKey();
-    //showChildPrivateKey(1);
-    showAddress(1);
-    showNextAddress();
-    showAddress(2);
-    showNextAddress();
+    std::cout << "BIP 32 Root Key: " << showPrivateKey() << std::endl;
+    std::cout << "Address: " << showAddress(1) << std::endl;
+    std::cout << "Address: " << showNextAddress() << std::endl;
+    std::cout << "Address: " << showAddress(2) << std::endl;
+    std::cout << "Address: " << showNextAddress() << std::endl;
 }

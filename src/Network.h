@@ -21,6 +21,9 @@ class Network
         // Check if the address has been paid.
         bool addressPaid(bc::wallet::payment_address a_address);
 
+        // Get Total UTXO for set of addresses.
+        void showTotalBalance( bc::wallet::payment_address a_addresses [] );
+
     private:
         // Client object used for accessing balance and network.
         bc::wallet::payment_address m_address;
