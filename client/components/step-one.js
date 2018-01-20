@@ -1,4 +1,5 @@
 import React from "react";
+import T from "prop-types";
 
 import { Content } from "./content";
 import { Dialog } from "./dialog";
@@ -7,10 +8,21 @@ import { Heading } from "./heading";
 import { Paragraph } from "./paragraph";
 import { Qr } from "./qr";
 
+import { getPrice } from "../services/api";
+import { withFetch } from "./with-fetch";
+
+const config = {
+  fetch: getPrice,
+};
+
+@withFetch(config)
 export class StepOne extends React.Component {
+  static propTypes = {
+    data: T.object.isRequired,
+  }
+
   render() {
-    const address = "some-wallet-address";
-    const btcPrice = 0.0001;
+    const { address, btcPrice } = this.props.data;
 
     return (
       <Dialog>
