@@ -14,6 +14,6 @@ main(int argc, char * argv[])
     Wallet wallet;
     Network network;
     
-    bc::wallet::payment_address addy("mnrnjVFimDFrNkszzMtecr4yrMKmEuMRbv");
+    bc::wallet::payment_address addy("1FKrfBLFsTCquCXJouj5AYEYVHdEUFs4wz");
     network.addressPaid(addy);
 }

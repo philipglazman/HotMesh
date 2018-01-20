@@ -16,14 +16,13 @@ class Network
 
         // Connect to the libbitcoin server network.
         // Return true if connection, return false if connection failed.
-        bool connectToNetwork();
+        //bool connectToNetwork();
 
         // Check if the address has been paid.
         bool addressPaid(bc::wallet::payment_address a_address);
 
     private:
         // Client object used for accessing balance and network.
-        static bc::client::obelisk_client client;
         bc::wallet::payment_address m_address;
 };
 
