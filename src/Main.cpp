@@ -20,4 +20,6 @@ main(int argc, char * argv[])
     // Check Wallet for addres.
     bc::wallet::payment_address addy("1FKrfBLFsTCquCXJouj5AYEYVHdEUFs4wz");
     network.addressPaid(addy);
+
+    network.getPriceQuoteFromCoinbase();
 }

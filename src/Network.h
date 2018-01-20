@@ -24,6 +24,10 @@ class Network
         // Get Total UTXO for set of addresses.
         void showTotalBalance( bc::wallet::payment_address a_addresses [] );
 
+        // Access Coinbase API to get price quote in USD.
+        // TODO - parse json object.
+        int getPriceQuoteFromCoinbase();
+
     private:
         // Client object used for accessing balance and network.
         bc::wallet::payment_address m_address;

@@ -116,3 +116,28 @@ void Network::showTotalBalance( bc::wallet::payment_address a_addresses [] )
     // Wait for history to be fetched.
 	m_client.wait();
 }
+
+// Gets price quote from coinbase. returns int. 
+int Network::getPriceQuoteFromCoinbase()
+{
+    CURL *curl;
+    CURLcode res;
+    
+    curl = curl_easy_init();
+    if(curl)
+    {
+        curl_easy_setopt(curl, CURLOPT_URL, "https://api.coinbase.com/v2/prices/spot?currency=USD");
+        
+        curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+    
+        /* Perform the request, res will get the return code */ 
+        res = curl_easy_perform(curl);
+        
+        /* Check for errors */ 
+        if(res != CURLE_OK)
+            fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));
+    
+        /* always cleanup */ 
+        curl_easy_cleanup(curl);
+    }
+}
