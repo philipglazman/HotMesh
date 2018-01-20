@@ -1,10 +1,9 @@
 import R from "ramda";
-import contentType from "content-type";
 import debug from "debug";
-import AppError from "./app-error";
-import * as storage from "./storage";
 
-const debugRequest = debug("signals:http");
+import AppError from "./app-error";
+
+const debugRequest = debug("http");
 
 const setDefaultMethod = R.over(R.lensProp("method"), R.defaultTo("GET"));
 
@@ -58,14 +57,6 @@ const withDefaults = R.compose(
   setDefaultMethod,
 );
 
-const withAccessToken = config => {
-  return R.assocPath(
-    ["headers", "authorization"],
-    `Bearer ${storage.getAccessToken()}`,
-    config,
-  );
-};
-
 const performRequest = async (url, config) => {
   return new Promise((resolve, reject) => {
     debugRequest(`--> ${config.method} ${url}`);
@@ -85,31 +76,12 @@ const performRequest = async (url, config) => {
 };
 
 const parseResponse = async response => {
-  // Note that fetch contains the Headers interface inside the headers key,
-  // which means we can't do `response.headers.["content-type"]`
-  // See more at https://developer.mozilla.org/en-US/docs/Web/API/Headers
-  const rawTypeHeader = response.headers.get("content-type") || "text/plain";
-  const { type } = contentType.parse(rawTypeHeader);
-
-  // We're only expecting JSON or text.
-  if (type === "application/json") {
-    debugRequest("Parsing response as JSON");
-    return {
-      ok: response.ok,
-      status: response.status,
-      statusText: response.statusText,
-      url: response.url,
-      body: await response.json(),
-    };
-  }
-
-  debugRequest("Parsing response as plain text");
   return {
     ok: response.ok,
     status: response.status,
     statusText: response.statusText,
     url: response.url,
-    body: await response.text(),
+    body: await response.json(),
   };
 };
 
@@ -123,8 +95,4 @@ export const request = async (url, originalConfig = {}) => {
   } else {
     throw response;
   }
-};
-
-export const requestSecured = async (url, config = {}) => {
-  return await request(url, withAccessToken(config));
 };
