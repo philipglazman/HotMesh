@@ -1,6 +1,7 @@
 import React from "react";
 import T from "prop-types";
 import { StyledComponent } from "fela-components";
+import clipboard from "clipboard-js";
 
 import { Button } from "./button";
 
@@ -30,7 +31,7 @@ export class Qr extends React.Component {
             backgroundImage: `url(https://chart.googleapis.com/chart?chs=${size}x${size}&cht=qr&chl=${string}&chld=|3)`,
           }}
         />
-        <Button>Copy address</Button>
+        <Button onClick={() => clipboard.copy(string)}>Copy address</Button>
       </StyledComponent>
     );
   }
