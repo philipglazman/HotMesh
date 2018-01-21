@@ -75,9 +75,6 @@ main(int argc, char * argv[])
                     std::cout << network.addressPaid(addy) << std::endl;
                     break;
             }
-            //wallet.setIndex(int_index++);
         }
-    
-        //Wallet wallet(word);
     }
 }
