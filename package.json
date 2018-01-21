@@ -47,6 +47,7 @@
     "koa-static": "^4.0.2",
     "moment": "^2.20.1",
     "moment-countdown": "^0.0.3",
+    "node-fetch": "^1.7.3",
     "prop-types": "^15.6.0",
     "ramda": "^0.25.0",
     "react": "^16.2.0",
