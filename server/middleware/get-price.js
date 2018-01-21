@@ -12,7 +12,7 @@ const getPrice = () => {
     ctx.status = 200;
     ctx.body = {
       address: getAddress(),
-      usdPrice: getUSDPrice(),
+      usdPrice: 1,
       btcPrice: 0.0001,
     };
   };
