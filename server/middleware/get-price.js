@@ -1,4 +1,5 @@
 const exec = require('child_process').exec;
+const request = require('request');
 
 const getPrice = () => {
   //get wallet address
@@ -6,11 +7,12 @@ const getPrice = () => {
     var address = data.toString();                       
     console.log("Address:", address);
   });
-  
+
   return async ctx => {
     ctx.status = 200;
     ctx.body = {
       address: getAddress(),
+      usdPrice: getUSDPrice(),
       btcPrice: 0.0001,
     };
   };

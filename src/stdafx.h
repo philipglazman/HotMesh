@@ -20,3 +20,5 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <iomanip>
 #include <curl/curl.h>
 #include <stdio.h>
+#include <fstream>
+#include <stdlib.h>

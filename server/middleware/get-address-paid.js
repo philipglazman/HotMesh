@@ -10,7 +10,7 @@ const getAddressPaid = () => {
   return async ctx => {
     ctx.status = 200;
     ctx.body = {
-      paid: isPaid(),
+      paid: getIsPaid(),
     };
   };
 };

@@ -51,6 +51,7 @@
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
     "react-measure": "^2.0.2",
+    "request": "^2.83.0",
     "serve": "^6.4.1",
     "webpack": "^3.10.0",
     "whatwg-fetch": "^2.0.3"

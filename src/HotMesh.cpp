@@ -6,10 +6,13 @@ g++ -std=c++11 -o wallet main.cpp wallet.cpp error.cpp $(pkg-config --cflags lib
 #include "Wallet.h"
 #include "Network.h"
 #include "Error.h"
+#include "Config.h"
 
 int
 main(int argc, char * argv[])
 {
+    Config config;
+
     // Wallet and network objects.
     Wallet wallet;
     Network network;
