@@ -14,39 +14,30 @@ Network::Network()
 
 bool Network::addressPaid(bc::wallet::payment_address a_address)
 {
+    uint64_t utxo = 0;
+
     bc::client::connection_type connection = {};
 	connection.retries = 3;
 	connection.timeout_seconds = 8;
-	connection.server = bc::config::endpoint("tcp://mainnet.libbitcoin.net:9091");
+	connection.server = bc::config::endpoint("tcp://testnet.libbitcoin.net:19091");
     
     bc::client::obelisk_client m_client(connection);
     
     // Check if connection is working.
-	if(m_client.connect(connection))
-	{
-        std::cout << "Connected to bitcoin network" << std::endl;
-		//return false;
-	}
-    else 
+	if(!m_client.connect(connection)) 
     {
-        std::cout << "Failed connect to bitcoin network" << std::endl;
-		//return true;
+        return false;
 	}
-    // Lambda callback functions for blockchain_fetch_history3
 
-    static const auto on_done = [](const bc::chain::history::list& rows)
+    // Lambda callback functions for blockchain_fetch_history3
+    static const auto on_done = [&utxo](const bc::chain::history::list& rows)
 	{
-        uint64_t utxo = 0;
-        
         // For each row in chain history, check for balance.
         for(const auto& row: rows)
 		{
 		    if (row.spend.hash() == bc::null_hash)
 		        utxo += row.value;
 		}
-
-		std::cout<< "Balance: " << utxo << std::endl;
-
 	};
 
     // Exception handling callback;
@@ -60,7 +51,11 @@ bool Network::addressPaid(bc::wallet::payment_address a_address)
 
     // Wait for history to be fetched.
 	m_client.wait();
-    
+
+    if(utxo > 0 )
+        return true;
+    else 
+        return false;
 }
 
 void Network::showTotalBalance( bc::wallet::payment_address a_addresses [] )
@@ -68,7 +63,7 @@ void Network::showTotalBalance( bc::wallet::payment_address a_addresses [] )
     bc::client::connection_type connection = {};
 	connection.retries = 3;
 	connection.timeout_seconds = 8;
-	connection.server = bc::config::endpoint("tcp://mainnet.libbitcoin.net:9091");
+	connection.server = bc::config::endpoint("tcp://testnet.libbitcoin.net:19091");
     
     bc::client::obelisk_client m_client(connection);
     
@@ -95,9 +90,6 @@ void Network::showTotalBalance( bc::wallet::payment_address a_addresses [] )
 		    if (row.spend.hash() == bc::null_hash)
 		        utxo += row.value;
 		}
-
-		std::cout<< "Balance: " << utxo << std::endl;
-
 	};
 
     // Exception handling callback;
@@ -132,7 +124,7 @@ int Network::getPriceQuoteFromCoinbase()
     
         /* Perform the request, res will get the return code */ 
         res = curl_easy_perform(curl);
-        
+
         /* Check for errors */ 
         if(res != CURLE_OK)
             fprintf(stderr, "curl_easy_perform() failed: %s\n", curl_easy_strerror(res));

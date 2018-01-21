@@ -23,7 +23,7 @@ main(int argc, char * argv[])
         // Confirm if address is paid. 
         case 2:
             bc::wallet::payment_address addy("1FKrfBLFsTCquCXJouj5AYEYVHdEUFs4wz");
-            network.addressPaid(addy);
+            std::cout << network.addressPaid(addy) << std::endl;
             break;
     }
 

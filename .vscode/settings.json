@@ -24,6 +24,16 @@
         "memory": "cpp",
         "iterator": "cpp",
         "random": "cpp",
-        "atomic": "cpp"
+        "atomic": "cpp",
+        "__bit_reference": "cpp",
+        "__functional_base": "cpp",
+        "bitset": "cpp",
+        "chrono": "cpp",
+        "functional": "cpp",
+        "limits": "cpp",
+        "ratio": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "type_traits": "cpp"
     }
 }
