@@ -1,21 +1,16 @@
-const exec = require('child_process').exec;
-const request = require('request');
+const exec = require('child-process-promise').exec;
 
 const getPrice = () => {
-  //get wallet address
-  // var getAddress = exec("$(pwd)'/src/wallet' 1", (err, data) => {  
-  //   var address = data.toString();                       
-  //   console.log("Address:", address);
-  //   return address;
-  // });
 
   return async ctx => {
+    var address = await exec("$(pwd)'/src/wallet' 1").then ((address) => {
+      
+      console.log(address.stdout);
+      
+      address = address.stdout.toString();
+      address = address.substring(0,address.length - 1)
 
-
-    var address = await exec("$(pwd)'/src/wallet' 1", (err, data) => {  
-      var add = data.toString();                       
-    console.log("Add:", add);
-    return add;                       
+      return address;
     });
 
     ctx.status = 200;
@@ -25,6 +20,7 @@ const getPrice = () => {
       btcPrice: 0.0001,
     };
   };
-};
+}
+  
 
 module.exports = getPrice;

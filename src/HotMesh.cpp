@@ -12,7 +12,41 @@ int
 main(int argc, char * argv[])
 {
     Config config;
+    std::stack<std::string> configuration;
+    std::string word;
+    int index;
 
+    for( ; ; ) 
+    {
+        std::string buff;
+
+        //config does not exist.
+        if(!config.configExists())
+            break;
+        if(!config.GetNextLine(buff))
+            break;
+
+        std::istringstream line(buff);
+	    std::string ibuff;
+        while (line)
+        {
+
+            if ( !ibuff.empty() )
+            {
+                configuration.push(ibuff);
+            }
+            line >> ibuff;
+        }
+
+        word = configuration.top();
+        configuration.pop();
+
+        index = std::stoi(configuration.top());
+        configuration.pop();
+    }
+
+    std::cout<<word<<std::endl;
+    std::cout<<index<<std::endl;
     // Wallet and network objects.
     Wallet wallet;
     Network network;

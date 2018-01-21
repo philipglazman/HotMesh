@@ -36,6 +36,8 @@
         "tuple": "cpp",
         "type_traits": "cpp",
         "iostream": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "queue": "cpp",
+        "stack": "cpp"
     }
 }
