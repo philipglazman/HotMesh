@@ -18,6 +18,6 @@ app.use(etag());
 app.use(serve(path.resolve("static")));
 app.use(router());
 
-app.listen(30000, () => {
-  console.log(`Server running on port ${30000}`);
+app.listen(80, () => {
+  console.log(`Server running on port ${80}`);
 });
