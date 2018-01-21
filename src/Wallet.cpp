@@ -126,3 +126,8 @@ void Wallet::showKeys()
     std::cout << "Address: " << showAddress(2) << std::endl;
     std::cout << "Address: " << showNextAddress() << std::endl;
 }
+
+void Wallet::setIndex(int a_index)
+{
+    m_index = a_index;
+}

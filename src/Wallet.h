@@ -44,6 +44,7 @@ public:
     // Debug function to get all keys.
     void showKeys();
 
+    void setIndex(int a_index);
     // TODO: Send transaction.
     //void sendTx();
     

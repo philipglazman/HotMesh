@@ -22,3 +22,4 @@ g++ -c stdafx.h -o stdafx.h.gch -std=c++11 -lboostsystem -lbitcoin
 #include <stdio.h>
 #include <fstream>
 #include <stdlib.h>
+#include <boost/algorithm/string.hpp>

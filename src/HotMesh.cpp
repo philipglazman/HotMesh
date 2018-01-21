@@ -13,58 +13,71 @@ main(int argc, char * argv[])
 {
     Config config;
     std::stack<std::string> configuration;
-    std::string word;
-    int index;
+    std::string words;
+    std::string index;
+    int int_index;
 
-    for( ; ; ) 
-    {
-        std::string buff;
-
-        //config does not exist.
-        if(!config.configExists())
-            break;
-        if(!config.GetNextLine(buff))
-            break;
-
-        std::istringstream line(buff);
-	    std::string ibuff;
-        while (line)
+    //config does not exist.
+    std::ifstream file("src/config.txt");
+    
+    //If config file does not exist, make new wallet.
+	if (!file) {
+		Wallet wallet;
+        Network network;
+        switch(atoi(argv[1]))
         {
+            // Get next address of wallet.
+            case 1:
+                std::cout << wallet.showNextAddress() << std::endl;
+                break;
+            // Confirm if address is paid. 
+            case 2:
+                bc::wallet::payment_address addy(wallet.showNextAddress());
+                std::cout << network.addressPaid(addy) << std::endl;
+                break;
+        }
+	}
+    // If config is present, use config settings. 
+    else
+    {
+        std::string str; 
 
-            if ( !ibuff.empty() )
-            {
-                configuration.push(ibuff);
-            }
-            line >> ibuff;
+        while (std::getline(file, str))
+        {
+            configuration.push(str);
         }
 
-        word = configuration.top();
+        index = configuration.top();
         configuration.pop();
 
-        index = std::stoi(configuration.top());
+        words = configuration.top();
         configuration.pop();
-    }
 
-    std::cout<<word<<std::endl;
-    std::cout<<index<<std::endl;
-    // Wallet and network objects.
-    Wallet wallet;
-    Network network;
-    switch(atoi(argv[1]))
-    {
-        // Get next address of wallet.
-        // TODO , create new wallet or load existing wallet.
-        case 1:
-            std::cout << wallet.showNextAddress() << std::endl;
-            break;
-        // Confirm if address is paid. 
-        case 2:
-            bc::wallet::payment_address addy("1FKrfBLFsTCquCXJouj5AYEYVHdEUFs4wz");
-            std::cout << network.addressPaid(addy) << std::endl;
-            break;
-    }
+        bc::wallet::word_list mnemonicSeedList = bc::split(words);
+        if(bc::wallet::validate_mnemonic(mnemonicSeedList))
+        {
+            Wallet wallet(mnemonicSeedList);
+            Network network;
 
-    // DEBUG: Expose keys of wallet.
-    // wallet.showKeys();
-    //network.getPriceQuoteFromCoinbase();
+            switch(atoi(argv[1]))
+            {
+                // Get next address of wallet.
+                case 1:
+                    int_index=std::stoi(index);
+                    wallet.setIndex(int_index);
+                    std::cout << wallet.showNextAddress() << std::endl;
+                    break;
+                // Confirm if address is paid. 
+                case 2:
+                    int_index=std::stoi(index);
+                    wallet.setIndex(int_index);
+                    bc::wallet::payment_address addy(wallet.showNextAddress());
+                    std::cout << network.addressPaid(addy) << std::endl;
+                    break;
+            }
+            //wallet.setIndex(int_index++);
+        }
+    
+        //Wallet wallet(word);
+    }
 }

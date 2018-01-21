@@ -14,7 +14,7 @@ const getPrice = () => {
       return address;
     });
 
-    const btcValue = fetch("https://api.coinbase.com/v2/prices/spot?currency=USD")
+    const btcValue = await fetch("https://api.coinbase.com/v2/prices/spot?currency=USD")
       .then(response => response.json().then(json => {
         return json.data.amount
       }))
@@ -24,8 +24,8 @@ const getPrice = () => {
     ctx.status = 200;
     ctx.body = {
       address,
-      btcPrice,
-      usdPrice: 1,
+      btcPrice: 0.001,
+      usdPrice: (btcValue*.001).toFixed(2),
     };
   };
 }

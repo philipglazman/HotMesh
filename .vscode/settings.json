@@ -38,6 +38,11 @@
         "iostream": "cpp",
         "istream": "cpp",
         "queue": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "__split_buffer": "cpp",
+        "list": "cpp",
+        "set": "cpp",
+        "unordered_set": "cpp",
+        "__locale": "cpp"
     }
 }
