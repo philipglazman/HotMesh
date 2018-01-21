@@ -71,7 +71,6 @@ class Fetch extends React.Component {
 
       try {
         const response = mapResponse(await fetch());
-        console.log("X", response);
         onFulfilled({ ...this.props, response, fetch: this.fetch });
         debug("Promise fulfilled %o", response);
         this.setState({ status: "fulfilled", response });

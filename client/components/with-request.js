@@ -2,7 +2,6 @@ import React from "react";
 import T from "prop-types";
 import createDebug from "debug";
 import invariant from "invariant";
-import { connect } from "react-redux";
 
 const debug = createDebug("with-request");
 
@@ -27,7 +26,7 @@ class Request extends React.Component {
     onPending: () => {},
     onFulfilled: () => {},
     onRejected: () => {},
-    mapResponse: data => ({ data }),
+    mapResponse: response => ({ data: response.body }),
     mapError: error => ({ error }),
   };
 
@@ -94,7 +93,7 @@ class Request extends React.Component {
   }
 }
 
-export function withRequest(mapRequestToProps) {
+export function withRequest(config) {
   return WrappedComponent => {
     invariant(
       WrappedComponent,
@@ -108,7 +107,7 @@ export function withRequest(mapRequestToProps) {
 
       render() {
         return (
-          <Request {...this.props}>
+          <Request {...config}>
             {props =>
               <WrappedComponent {...props} children={this.props.children} />
             }
@@ -117,6 +116,6 @@ export function withRequest(mapRequestToProps) {
       }
     }
 
-    return connect(mapRequestToProps)(RequestEnhancer);
+    return RequestEnhancer;
   };
 }
