@@ -22,7 +22,7 @@ export class StepOne extends React.Component {
   }
 
   render() {
-    const { address, btcPrice } = this.props.data;
+    const { address, usdPrice, btcPrice } = this.props.data;
 
     return (
       <Dialog>
@@ -34,7 +34,7 @@ export class StepOne extends React.Component {
         <Footer>
           1 hour
           &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;
-          $1
+          ${usdPrice}
           &nbsp;&nbsp;&nbsp;:&nbsp;&nbsp;&nbsp;
           {btcPrice} BTC
         </Footer>
